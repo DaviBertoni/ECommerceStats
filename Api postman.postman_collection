@@ -1,0 +1,582 @@
+{
+	"info": {
+		"_postman_id": "daac837a-c7b7-4eae-a9dc-cae1430bd73b",
+		"name": "Api ECommerceStats",
+		"description": "## API de E-Commerce\n\n### Visão Geral\n\nA API de E-Commerce permite a gestão de usuários, produtos e pedidos em um sistema de comércio eletrônico. Desenvolvida para facilitar a interação entre clientes e operações comerciais, oferece recursos robustos para administração de dados e transações.\n\n### Tecnologias Utilizadas\n\nA API é construída utilizando as seguintes tecnologias e ferramentas:\n\n- **Node.js**: Plataforma para execução de código JavaScript no servidor.\n    \n- **Express.js**: Framework web para Node.js, utilizado para construir APIs RESTful.\n    \n- **Sequelize**: ORM (Object-Relational Mapping) para Node.js, compatível com vários bancos de dados relacionais.\n    \n- **PostgreSQL**: Banco de dados relacional utilizado para armazenar dados persistentes.\n    \n- **JWT (JSON Web Tokens)**: Mecanismo de autenticação utilizado para proteger endpoints sensíveis.\n    \n- **Node-Cache**: Biblioteca para implementação de caching em memória na aplicação.\n    \n\n### Funcionalidades Principais\n\n- **Gestão de Usuários**: Cadastro, atualização, e remoção de usuários.\n    \n- **Gestão de Produtos**: Cadastro, atualização, e remoção de produtos.\n    \n- **Gestão de Pedidos**: Criação, atualização, e consulta de pedidos.\n    \n- **Autenticação**: Utilização de tokens JWT para autenticar usuários em endpoints protegidos.\n    \n- **Cache**: Implementação de cache para melhorar o desempenho em consultas frequentes.\n    \n\n### Autenticação\n\nA API requer autenticação via JWT (JSON Web Token) para acessar endpoints que exigem autorização. Para obter um token JWT válido, é necessário realizar uma geração de token que retornará um token válido por um período específico.\n\n### Exemplos de Uso\n\nPara utilizar a API, consulte a documentação detalhada de cada endpoint para entender os parâmetros aceitos, exemplos de requisições e respostas, e códigos de status HTTP.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30520240"
+	},
+	"item": [
+		{
+			"name": "Endpoints de Usuários",
+			"item": [
+				{
+					"name": "Pegar todos Usuários",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Validate that the response code should be 200\r",
+									"pm.test(\"Response Code should be 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Run validations on response headers like Content-Type\r",
+									"pm.test(\"Content-Type should be JSON\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+									"});\r",
+									"\r",
+									"const json = pm.response.json();\r",
+									"\r",
+									"// The response body, including individual attributes can be evaluated for correctness\r",
+									"pm.test(\"`args` should contain the correct query params\", function () {\r",
+									"    pm.expect(json.args).to.be.an('object');\r",
+									"    pm.expect(json.args.foo).to.eql('bar');\r",
+									"    pm.expect(json.args.baz).to.eql('value');\r",
+									"});\r",
+									"\r",
+									"// Non-trivial data types like Dates can also be tested against\r",
+									"pm.test(\"Date in the header should be valid\", function () {\r",
+									"    const parsedDate = new Date(pm.response.headers.get('Date'));\r",
+									"    pm.expect(parsedDate).to.be.a('date');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiam9hb0BleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcxOTgyMDM1NCwiZXhwIjoxNzE5ODIzOTU0fQ.hqvp40MiDvn4g3dUUXUSNX8v4FBhWdYmD1bfWzh4Uog",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users"
+							]
+						},
+						"description": "### Pegar Todos Usuários\n\n**Descrição do Endpoint:**  \nEste endpoint retorna uma lista de todos os usuários cadastrados no sistema.\n\n**Parâmetros Aceitos:**  \nNenhum parâmetro necessário.\n\n**Exemplos de Requisições:GET /users**\n\n{  \n\"Content-Type\": \"application/json\"  \n}\n\nExemplos de Respostas:Código: 200 OK  \n{  \n\"id\": 1,  \n\"name\": \"John Doe\",  \n\"email\": \"[john.doe@example.com](https://mailto:john.doe@example.com)\"  \n}\n\nCódigo: 500 Error  \n{  \nInternal Server Error  \n}\n\n**Códigos de Status HTTP:**\n\n**• 200 OK**: Retornado quando a requisição foi bem -sucedida e a lista de usuários é retornada.\n\n• 500 Error: Retornado quando a requisição houve erro dentro do server"
+					},
+					"response": []
+				},
+				{
+					"name": "Criar Usuário",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiam9hb0BleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcxOTgyMDM1NCwiZXhwIjoxNzE5ODIzOTU0fQ.hqvp40MiDvn4g3dUUXUSNX8v4FBhWdYmD1bfWzh4Uog",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"Jaodfrgdfrhdhhj\",\r\n  \"email\": \"jaoa@example.com\",\r\n  \"password\": 12345678\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/users/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								""
+							]
+						},
+						"description": "### Criar Usuário\n\n**Descrição do Endpoint:**  \nEste endpoint cria um novo usuário com os dados fornecidos.\n\n**Parâmetros Aceitos:**  \nNenhum parâmetro aceito diretamente na URL. Os dados do novo usuário devem ser enviados no corpo da requisição no formato JSON.\n\n**Exemplos de Requisições:POST /users**\n\n{  \n\"Content-Type\": \"application/json\",  \n\"body\": {  \n\"name\": \"Maria Silva\",  \n\"email\": \"[maria.silva@example.com](https://mailto:maria.silva@example.com)\",  \n\"password\": \"senha123\"  \n}  \n}\n\nExemplos de Respostas:Código: 201 Created  \n{  \n\"id\": 3,  \n\"name\": \"Maria Silva\",  \n\"email\": \"[maria.silva@example.com](https://mailto:maria.silva@example.com)\"  \n}\n\nCódigo: 500 Error  \n{  \nInternal Server Error  \n}\n\n**Códigos de Status HTTP:**\n\n**• 201 Created**: Retornado quando o novo usuário é criado com sucesso.\n\n• 500 Error: Retornado quando a requisição houve erro dentro do server"
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar Usuário por ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiam9hb0BleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcxOTgyMDM1NCwiZXhwIjoxNzE5ODIzOTU0fQ.hqvp40MiDvn4g3dUUXUSNX8v4FBhWdYmD1bfWzh4Uog",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"Jao\",\r\n  \"email\": \"jaana@example.com\",\r\n  \"password\": 546467676\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/users/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"1"
+							]
+						},
+						"description": "### Atualizar um Usuário por ID\n\n**Descrição do Endpoint:**  \nEste endpoint atualiza os dados de um usuário existente com base no ID fornecido na URL.\n\n**Parâmetros Aceitos:**\n\n- **userId**: ID do usuário (inteiro) que deve ser fornecido na URL.\n    \n- Os dados atualizados do usuário devem ser enviados no corpo da requisição no formato JSON.\n    \n\n**Exemplos de Requisições:PUT /users/1**\n\n{  \n\"Content-Type\": \"application/json\",  \n\"body\": {  \n\"name\": \"John Doe\",  \n\"email\": \"j[ohn.doe@example.com](https://mailto:updated.john.doe@example.com)\",  \n\"password\": \"password123\"  \n}  \n}\n\nExemplos de Respostas:Código: 200 OK  \n{  \n\"id\": 1,  \n\"name\": \"John Doe\",  \n\"email\": \"[john.doe@example.com](https://mailto:updated.john.doe@example.com)\"  \n}\n\nCódigo: 404 Not Found  \n{  \n\"error\": \"User not found\"  \n}\n\nCódigo: 500 Error  \n{  \nInternal Server Error  \n}\n\n**Códigos de Status HTTP:**\n\n**• 200 OK**: Retornado quando o usuário é atualizado com sucesso.\n\n**• 404 Not Found**: Retornado quando o usuário com o ID especificado não é encontrado.\n\n• 500 Error: Retornado quando a requisição houve erro dentro do server"
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar Usuário por ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiam9hb0BleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcxOTgyMDM1NCwiZXhwIjoxNzE5ODIzOTU0fQ.hqvp40MiDvn4g3dUUXUSNX8v4FBhWdYmD1bfWzh4Uog",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/users/6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"6"
+							]
+						},
+						"description": "### Deletar um Usuário\n\n**Descrição do Endpoint:**  \nEste endpoint deleta um usuário existente com base no ID fornecido na URL.\n\n**Parâmetros Aceitos:**\n\n- **userId**: ID do usuário (inteiro) que deve ser fornecido na URL.\n    \n\n**Exemplos de Requisições:DELETE /users/1**\n\n**Exemplos de Respostas:Código: 204 No Content**\n\n_Código: 404 Not Found_{  \n\"error\": \"User not found\"  \n}\n\nCódigo: 500 Internal Server ErrorEndFragment\n\n{  \n\"error\": \"Internal Server Error\"  \n}\n\n**Códigos de Status HTTP:**\n\n- **204 No Content**: Retornado quando o usuário é deletado com sucesso.\n    \n- **404 Not Found**: Retornado quando o usuário com o ID especificado não é encontrado.\n    \n- **500 Internal Server Error**: Retornado quando ocorre um erro interno no servidor."
+					},
+					"response": []
+				}
+			],
+			"description": "**• Descrição:**  \nNessa pasta contém todos enpoints relacionados ao usuário  \n• Regra:  \n_**Nome**_ é obrigatório nome ser passado  \n_**Email**_ tem que ser válido  \n_**Email**_ não pode ser existente  \n_**Password**_ deve ter pelo menos 6 caracteres\n\n• Tipos de respostas padrões para todos endpoints do tipo Usuário\n\n'Name is required'  \n'Email must be valid'  \n'Email already in use'  \n'Password must be at least 6 characters long'"
+		},
+		{
+			"name": "Endpoints de Produtos",
+			"item": [
+				{
+					"name": "Pegar todos Produtos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Validate that the response code should be 200",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// Validate that the response is json object",
+									"pm.test(\"Response is a json object\", function () {",
+									"    pm.expect(pm.response.json()).to.be.an('object');",
+									"});",
+									"",
+									"// Validate that the response has an arg object",
+									"pm.test(\"Response to have 'arg' object\", function () {",
+									"    pm.expect(pm.response.json()).to.have.property('args');",
+									"});",
+									"",
+									"// Validate that the response has headers object",
+									"pm.test(\"Response to have 'headers' object\", function () {",
+									"    pm.expect(pm.response.json()).to.have.property('headers');",
+									"});",
+									"",
+									"// Validate that the response has url property",
+									"pm.test(\"Response to have 'url' property\", function () {",
+									"    pm.expect(pm.response.json()).to.have.property('url');",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiam9hb0BleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcxOTgyMDM1NCwiZXhwIjoxNzE5ODIzOTU0fQ.hqvp40MiDvn4g3dUUXUSNX8v4FBhWdYmD1bfWzh4Uog",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"products"
+							]
+						},
+						"description": "### Pegar Todos Produtos\n\n**Descrição do Endpoint:**  \nEste endpoint retorna uma lista de todos os produtos cadastrados no sistema.\n\n**Parâmetros Aceitos:**  \nNenhum parâmetro necessário.\n\n**Exemplos de Requisições:GET /products**\n\n{  \n\"Content-Type\": \"application/json\"  \n}\n\n**Exemplos de Respostas:Código: 200 OK**  \n{  \n\"id\": 1,  \n\"name\": \"Product A\",  \n\"price\": 50.99,  \n\"description\": \"Description of Product A\"  \n}\n\nCódigo: 500 Internal Server  \n{  \n\"error\": \"Internal Server Error\"  \n}\n\n**Códigos de Status HTTP:**\n\n- **200 OK**: Retornado quando a requisição foi bem-sucedida e a lista de produtos é retornada.\n    \n- **500 Internal Server Error**: Retornado quando ocorre um erro interno no servidor."
+					},
+					"response": []
+				},
+				{
+					"name": "Criar Produto",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiam9hb0BleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcxOTgyMDM1NCwiZXhwIjoxNzE5ODIzOTU0fQ.hqvp40MiDvn4g3dUUXUSNX8v4FBhWdYmD1bfWzh4Uog",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Arroz",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "20.00",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Arroz quentinho ",
+									"type": "text"
+								},
+								{
+									"key": "productimage",
+									"type": "file",
+									"src": "/C:/Users/davib/OneDrive/Área de Trabalho/arroz.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/products/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"products",
+								""
+							]
+						},
+						"description": "### Criar Produto\n\n**Descrição do Endpoint:**  \nEste endpoint cria um novo produto com os dados fornecidos.\n\n**Parâmetros Aceitos:**  \nNenhum parâmetro aceito diretamente na URL. Os dados do novo produto devem ser enviados no corpo da requisição no formato JSON.\n\n**Exemplos de Requisições:POST /products**  \n{  \n\"Content-Type\": \"application/json\",  \n\"body\": {  \n\"name\": \"New Product\",  \n\"price\": 99.99,  \n\"description\": \"Description of New Product\"  \n}  \n}\n\n\\*_Exemplos de Respostas:Código: 201 Created  \n\\*_{  \n\"id\": 3,  \n\"name\": \"Novo Product\",  \n\"price\": 99.99,  \n\"description\": \"Descrição do novo produto\"  \n}\n\nCódigo: 500 Internal Server  \n{  \n\"error\": \"Internal Server Error\"  \n}\n\n**Códigos de Status HTTP:**\n\n- **201 Created**: Retornado quando o novo produto é criado com sucesso.\n    \n- **500 Internal Server Error**: Retornado quando ocorre um erro interno no servidor."
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar Produto por ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiam9hb0BleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcxOTgyMDM1NCwiZXhwIjoxNzE5ODIzOTU0fQ.hqvp40MiDvn4g3dUUXUSNX8v4FBhWdYmD1bfWzh4Uog",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Feijão",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "19.99",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Feijão branco",
+									"type": "text"
+								},
+								{
+									"key": "productimage",
+									"type": "file",
+									"src": "/C:/Users/davib/OneDrive/Área de Trabalho/86880080o.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/products/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"products",
+								"1"
+							]
+						},
+						"description": "### Atualizar Produto por ID\n\n**Descrição do Endpoint:**  \nEste endpoint atualiza os dados de um produto existente com base no ID fornecido na URL.\n\n**Parâmetros Aceitos:**\n\n- **productId**: ID do produto (inteiro) que deve ser fornecido na URL.\n    \n- Os dados atualizados do produto devem ser enviados no corpo da requisição no formato JSON.\n    \n\n_Exemplos de Requisições:PUT /products/1  \n_{  \n\"Content-Type\": \"application/json\",  \n\"body\": {  \n\"name\": \"Updated Product A\",  \n\"price\": 59.99,  \n\"description\": \"Updated Description of Product A\"  \n}  \n}\n\n**Exemplos de Respostas:Código: 200 OK**\n\n{  \n\"id\": 1,  \n\"name\": \"Updated Product A\",  \n\"price\": 59.99,  \n\"description\": \"Updated Description of Product A\"  \n}\n\nCódigo: 404 Not Found  \n{  \n\"error\": \"Product not found\"  \n}\n\nCódigo: 500 Internal Server Error  \n{  \n\"error\": \"Internal Server Error\"  \n}\n\n**Códigos de Status HTTP:**\n\n- **200 OK**: Retornado quando o produto é atualizado com sucesso.\n    \n- **404 Not Found**: Retornado quando o produto com o ID especificado não é encontrado.\n    \n- **500 Internal Server Error**: Retornado quando ocorre um erro interno no servidor."
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar Produto por ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiam9hb0BleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcxOTc1OTI1OCwiZXhwIjoxNzE5NzYyODU4fQ.CzMc_liZ8AwP_MlhHWOI_rrt3-YlfE8f-8ayDOD7poM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/products/20",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"products",
+								"20"
+							]
+						},
+						"description": "### Deletar um Produto por ID\n\n**Descrição do Endpoint:**  \nEste endpoint deleta um produto existente com base no ID fornecido na URL.\n\n**Parâmetros Aceitos:**\n\n- **productId**: ID do produto (inteiro) que deve ser fornecido na URL.\n    \n\n**Exemplos de Requisições:DELETE /products/1**\n\n**Exemplos de Respostas:Código: 204 No Content**\n\nCódigo: 404 Not Found  \n{  \n\"error\": \"Product not found\"  \n}\n\nCódigo: 500 Internal Server Error  \n{  \n\"error\": \"Internal Server Error\"  \n}\n\n**Códigos de Status HTTP:**\n\n- **204 No Content**: Retornado quando o produto é deletado com sucesso.\n    \n- **404 Not Found**: Retornado quando o produto com o ID especificado não é encontrado.\n    \n- **500 Internal Server Error**: Retornado quando ocorre um erro interno no servidor."
+					},
+					"response": []
+				}
+			],
+			"description": "**• Descrição:**  \nNessa pasta contém todos enpoints relacionados aos produtos  \n  \n• Regra:  \n_**Nome**_ é obrigatório nome ser passado  \n_**Price**_ tem que ser um número maior que zero  \n_**Description**_ é obrigatório ser passado  \n\n• Tipos de respostas padrões para todos endpoints do tipo Produto\n\n'Name is required'  \n'Price must be a number greater than 0'  \n'Description is required'"
+		},
+		{
+			"name": "Endpoints de Pedidos",
+			"item": [
+				{
+					"name": "Pegar todos Pedidos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const json = pm.response.json();\r",
+									"\r",
+									"// Validate raw body sent in the request, be it form-data or JSON\r",
+									"pm.test(\"`form` should contain the correct form data\", function () {\r",
+									"    pm.expect(json.form).to.be.an('object');\r",
+									"    pm.expect(json.form.foo1).to.eql('bar1');\r",
+									"    pm.expect(json.form.foo2).to.eql('bar2');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiam9hb0BleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcxOTgyMDM1NCwiZXhwIjoxNzE5ODIzOTU0fQ.hqvp40MiDvn4g3dUUXUSNX8v4FBhWdYmD1bfWzh4Uog",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"orders"
+							]
+						},
+						"description": "### Pegar Todos Pedidos\n\n**Descrição do Endpoint:**  \nEste endpoint retorna uma lista de todos os pedidos cadastrados no sistema.\n\n**Parâmetros Aceitos:**  \nNenhum parâmetro necessário.\n\n**Exemplos de Requisições:GET /orders**\n\n{  \n\"Content-Type\": \"application/json\"  \n}\n\n  \n**Exemplos de Respostas:Código: 200 OK  \n**{  \n\"id\": 1,  \n\"userId\": 1,  \n\"productId\": 1,  \n\"quantity\": 2,  \n\"totalPrice\": 101.98,  \n\"status\": \"pending\"  \n}\n\n  \nCódigo: 500 Internal Server Error  \n{  \n\"error\": \"Internal Server Error\"  \n}  \n\n**Códigos de Status HTTP:**\n\n- **200 OK**: Retornado quando a requisição foi bem-sucedida e a lista de pedidos é retornada.\n    \n- **500 Internal Server Error**: Retornado quando ocorre um erro interno no servidor."
+					},
+					"response": []
+				},
+				{
+					"name": "Criar Pedido",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiam9hb0BleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcxOTgyMDM1NCwiZXhwIjoxNzE5ODIzOTU0fQ.hqvp40MiDvn4g3dUUXUSNX8v4FBhWdYmD1bfWzh4Uog",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"user_id\": 1,  \r\n  \"product_id\": 2,  \r\n  \"quantity\": 1,  \r\n  \"status\": \"pending\"  \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/orders/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"orders",
+								""
+							]
+						},
+						"description": "### Criar um Novo Pedido\n\n**Descrição do Endpoint:**  \nEste endpoint cria um novo pedido com os dados fornecidos.  \n  \n**Regra:**\n\nO valor que deve ser passado no campo Status deve ser algum entre esses:  \n'pending'  \n'completed'  \n'cancelled'\n\n**Parâmetros Aceitos:**  \nNenhum parâmetro aceito diretamente na URL. Os dados do novo pedido devem ser enviados no corpo da requisição no formato JSON.  \n\n\\*_Exemplos de Requisições:POST /orders__\\*_{  \n\"Content-Type\": \"application/json\",  \n\"body\": {  \n\"userId\": 1,  \n\"productId\": 2,  \n\"quantity\": 3,  \n\"status\": \"pending\"  \n}  \n}\n\n**Exemplos de Respostas:Código: 201 Created**  \n{  \n\"id\": 3,  \n\"userId\": 1,  \n\"productId\": 2,  \n\"quantity\": 3,  \n\"totalPrice\": 152.97,  \n\"status\": \"pending\"  \n}\n\nCódigo: 404 Not found  \n{  \n\"error\": \"Product not found\"  \n}\n\nCódigo: 500 Internal Server  \n{  \n\"error\": \"Internal Server Error\"  \n}\n\n**Códigos de Status HTTP:**\n\n- **201 Created**: Retornado quando o novo produto é criado com sucesso.\n    \n- 404 Not Found: Retornado quando o produto do pedido não é encontrado.\n    \n- **500 Internal Server Error**: Retornado quando ocorre um erro interno no servidor."
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar Pedido por ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiam9hb0BleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcxOTgyMDM1NCwiZXhwIjoxNzE5ODIzOTU0fQ.hqvp40MiDvn4g3dUUXUSNX8v4FBhWdYmD1bfWzh4Uog",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userId\": 1,  \r\n  \"productId\": 1,  \r\n  \"quantity\": 2,  \r\n  \"status\": \"completed\"  \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/orders/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"orders",
+								"1"
+							]
+						},
+						"description": "### Atualizar Pedido por ID\n\n**Descrição do Endpoint:**  \nEste endpoint atualiza os dados de um pedido existente com base no ID fornecido na URL.  \n  \n**Regra:**  \n  \nO valor que deve ser passado no campo Status deve ser algum entre esses:  \n'pending'  \n'completed'  \n'cancelled'\n\n**Parâmetros Aceitos:**\n\n- **orderId**: ID do pedido (inteiro) que deve ser fornecido na URL.\n    \n- Os dados atualizados do pedido devem ser enviados no corpo da requisição no formato JSON.\n    \n\n**Exemplos de Requisições:PUT /orders/1**\n\n{  \n\"Content-Type\": \"application/json\",  \n\"body\": {  \n\"userId\": 1,  \n\"productId\": 2,  \n\"quantity\": 4,  \n\"status\": \"completed\"  \n}  \n}\n\n**Exemplos de Respostas:Código: 200 OK**\n\n{  \n\"id\": 1,  \n\"userId\": 1,  \n\"productId\": 2,  \n\"quantity\": 4,  \n\"totalPrice\": 203.96,  \n\"status\": \"completed\"  \n}\n\nCódigo: 404 Not Found  \n{  \n\"error\": \"Product not found\"  \n}\n\nCódigo: 404 Not Found  \n{  \n\"error\": \"Order not found\"  \n}\n\nCódigo: 500 Internal Server Error  \n{  \n\"error\": \"Internal Server Error\"  \n}\n\n**Códigos de Status HTTP:**\n\n- **200 OK**: Retornado quando o pedido é atualizado com sucesso.\n    \n- 404 Not Found: Retornado quando o produto do pedido não é encontrado.\n    \n- **404 Not Found**: Retornado quando o pedido com o ID especificado não é encontrado.\n    \n- **500 Internal Server Error**: Retornado quando ocorre um erro interno no servidor."
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar Pedido por ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiam9hb0BleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcxOTcxMzgzOSwiZXhwIjoxNzE5NzE3NDM5fQ.lg12WyQOWvVqcXRR3-ccXDjNKyrdoRbtk9YqJnHWQUE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/orders/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"orders",
+								"3"
+							]
+						},
+						"description": "### Deletar um Pedido por ID\n\n**Descrição do Endpoint:**  \nEste endpoint deleta um pedido existente com base no ID fornecido na URL.\n\n**Parâmetros Aceitos:**\n\n- **orderId**: ID do pedido (inteiro) que deve ser fornecido na URL.\n    \n\n**Exemplos de Requisições:DELETE /orders/1**\n\nExemplos de Respostas:\n\nCódigo: 204 No Content**\n\nCódigo: 404 Not Found  \n{  \n\"error\": \"Order not found\"  \n}\n\nCódigo: 500 Internal Server Error  \n{  \n\"error\": \"Internal Server Error\"  \n}\n\n**Códigos de Status HTTP:**\n\n- **204 No Content**: Retornado quando o pedido é deletado com sucesso.\n    \n- **404 Not Found**: Retornado quando o pedido com o ID especificado não é encontrado.\n    \n- **500 Internal Server Error**: Retornado quando ocorre um erro interno no servidor."
+					},
+					"response": []
+				}
+			],
+			"description": "**• Descrição:**  \nNessa pasta contém todos enpoints relacionados aos produtos\n\n• Regra:  \n_**User Id**_ tem que ser um valor inteiro  \n_**Product Id**_ tem que ser um valor inteiro  \n_**Quatity**_ tem que ser um valor inteiro  \nO valor que deve ser passado no campo _**Status**_ deve ser algum entre esses:  \n'pending'  \n'completed'  \n'cancelled'\n\n• Tipos de respostas padrões para todos endpoints do tipo Pedido\n\n'User ID must be a valid integer'  \n'Product ID must be a valid integer'  \n'Quantity must be a positive integer'  \n'Invalid status value'"
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://postman-echo.com"
+		}
+	]
+}
