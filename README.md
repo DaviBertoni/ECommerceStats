@@ -45,7 +45,7 @@ Este projeto é uma API para um sistema de e-commerce, desenvolvida usando Node.
   DB_NAME=
   JWT_SECRET=
   ```
-- **uploads**
+- **Uploads**
   - Crie uma pasta chamada uploads.
 
 ## Instalação
