@@ -46,7 +46,7 @@ Este projeto é uma API para um sistema de e-commerce, desenvolvida usando Node.
   JWT_SECRET=
   ```
 - **Uploads**
-  - Crie uma pasta chamada uploads dentro do raíz.
+  - Crie uma pasta chamada uploads dentro da raíz.
 
 ## Instalação
 
