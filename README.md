@@ -100,10 +100,6 @@ npm start
 │   ├── orderRoutes.js
 │   ├── productRoutes.js
 │   └── userRoutes.js
-├── tests
-│   ├── order.test.js
-│   ├── product.test.js
-│   └── userModel.test.js
 ├── utils
 │   ├── cache.js
 │   ├── db.js
